@@ -1178,6 +1178,11 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(0.9);
 }
 
+/* Stagger children: start visible, GSAP enhances with animation */
+.stagger-children > * {
+  opacity: 1;
+}
+
 /* --- Featured Projects (Home preview) --- */
 .featured-grid {
   display: grid;

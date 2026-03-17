@@ -113,20 +113,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Stagger children animations
+    // Stagger children animations — each child triggers independently
     gsap.utils.toArray('.stagger-children').forEach(parent => {
-      const children = parent.children;
-      gsap.from(children, {
-        opacity: 0,
-        y: 30,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: parent,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
+      const children = Array.from(parent.children);
+      children.forEach((child, i) => {
+        gsap.from(child, {
+          opacity: 0,
+          y: 30,
+          duration: 0.6,
+          delay: i * 0.05,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: child,
+            start: 'top 92%',
+            toggleActions: 'play none none none'
+          }
+        });
       });
     });
 
@@ -275,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ---- Typed Effect for hero subtitle ----
   const typedEl = document.getElementById('typed-text');
   if (typedEl) {
-    const words = ['Graphics Designer', 'Web Developer', 'UI/UX Designer', 'Brand Strategist', 'Full-Stack Developer'];
+    const words = ['Graphics Designer', 'Web Developer', 'UI/UX Designer', 'Videographer', 'Cartoon Animator', 'Brand Strategist', 'Full-Stack Developer'];
     let wordIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
