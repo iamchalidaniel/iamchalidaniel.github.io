@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelector('.nav-links');
   const navOverlay = document.querySelector('.nav-overlay');
 
-  // Scroll effect — add .scrolled class
+  // Scroll effect — add .scrolled class with enhanced effect
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
       navbar.classList.add('scrolled');
@@ -51,6 +51,29 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ---- Active nav link tracking ----
+  const updateActiveLink = () => {
+    const sections = document.querySelectorAll('section, header');
+    const navItems = document.querySelectorAll('.nav-links a');
+    
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (scrollY >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navItems.forEach(item => {
+      item.classList.remove('active');
+      if (item.getAttribute('href').includes(current)) {
+        item.classList.add('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', updateActiveLink);
 
   // ---- GSAP ScrollTrigger Animations ----
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
@@ -216,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- 3D Card Tilt Effect ----
+  // ---- 3D Card Tilt Effect (Enhanced) ----
   document.querySelectorAll('.tilt-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -228,14 +251,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const rotateY = ((x - centerX) / centerX) * 8;
 
       card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+      
+      // Add subtle light reflection effect
+      const glareX = (x / rect.width) * 100;
+      const glareY = (y / rect.height) * 100;
+      card.style.backgroundImage = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.1), transparent)`;
     });
 
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+      card.style.backgroundImage = 'none';
     });
   });
 
-  // ---- Magnetic Buttons ----
+  // ---- Magnetic Buttons (Enhanced) ----
   document.querySelectorAll('.btn-primary').forEach(btn => {
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();
@@ -249,11 +278,51 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Contact Form ----
+  // ---- Button ripple effect ----
+  document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.classList.add('ripple');
+
+      this.appendChild(ripple);
+
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  // ---- Contact Form (Enhanced) ----
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
+    // Form validation
+    const validateForm = () => {
+      const name = contactForm.querySelector('#name').value.trim();
+      const email = contactForm.querySelector('#email').value.trim();
+      const message = contactForm.querySelector('#message').value.trim();
+      
+      if (!name || !email || !message) {
+        return false;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      
+      if (!validateForm()) {
+        alert('Please fill in all fields with valid information.');
+        return;
+      }
+
       const btn = contactForm.querySelector('button[type="submit"]');
       const originalText = btn.textContent;
       btn.textContent = 'Sending...';
@@ -324,10 +393,65 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ---- Parallax effect on scroll ----
+  const parallaxElements = document.querySelectorAll('[data-parallax]');
+  if (parallaxElements.length > 0) {
+    window.addEventListener('scroll', () => {
+      parallaxElements.forEach(el => {
+        const scrollPosition = window.scrollY;
+        const speed = el.getAttribute('data-parallax') || 0.5;
+        el.style.transform = `translateY(${scrollPosition * speed}px)`;
+      });
+    });
+  }
+
+  // ---- Intersection Observer for fade-in effects ----
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.service-card, .skill-card, .portfolio-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
   // ---- Current year in footer ----
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();
   }
+
+  // ---- Add ripple effect CSS ----
+  const style = document.createElement('style');
+  style.textContent = `
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: scale(0);
+      animation: ripple-animation 0.6s ease-out;
+      pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
 
 });
