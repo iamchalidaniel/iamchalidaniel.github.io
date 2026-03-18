@@ -518,6 +518,13 @@ h1, h2, h3, h4, h5, h6 {
 .about-avatar {
   font-size: 8rem;
   line-height: 1;
+  color: var(--accent-light);
+}
+
+.about-avatar i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .about-image::after {
@@ -580,6 +587,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .highlight-icon {
   font-size: 1.5rem;
+  color: var(--accent-light);
+  min-width: 24px;
+  text-align: center;
+}
+
+.highlight-icon i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .highlight-text {
@@ -612,6 +628,15 @@ h1, h2, h3, h4, h5, h6 {
 .skill-card-icon {
   font-size: 2.5rem;
   margin-bottom: 16px;
+  color: var(--accent-light);
+}
+
+.skill-card-icon i {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .skill-card h4 {
@@ -733,6 +758,15 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 3rem;
   margin-bottom: 20px;
   display: block;
+  color: var(--accent-light);
+}
+
+.service-icon i {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .service-card h3 {
@@ -969,10 +1003,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   margin-bottom: 4px;
 }
+.contact-item-icon {
+  font-size: 1.5rem;
+  color: var(--accent-light);
+  min-width: 24px;
+  text-align: center;
+}
 
-.contact-item-text p {
-  font-size: 1rem;
-  color: var(--text-primary);
+.contact-item-icon i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .social-links {
@@ -1215,6 +1256,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 100px 32px 32px;
     gap: 4px;
     transition: var(--transition-slow);
+    z-index: 1000;
   }
 
   .nav-links.open {
@@ -1287,20 +1329,58 @@ h1, h2, h3, h4, h5, h6 {
   .page-header {
     padding: 130px 0 60px;
   }
+
+  .nav-logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-logo .logo-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.85rem;
+  }
+
+  .container {
+    width: 95%;
+  }
+
+  .section-header {
+    margin-bottom: 40px;
+  }
+
+  .section-header h2 {
+    font-size: 2rem;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
 }
 
-@media (max-width: 480px) {
-  .hero-buttons {
-    flex-direction: column;
+  .service-icon {
+    font-size: 2.5rem;
   }
 
-  .hero-buttons .btn {
-    width: 100%;
-    justify-content: center;
+  .skill-card-icon {
+    font-size: 2rem;
   }
 
-  .section {
-    padding: 60px 0;
+  .about-avatar {
+    font-size: 5rem;
+  }
+
+  .service-card,
+  .skill-card {
+    padding: 24px 16px;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .page-header h1 {
+    font-size: 2rem;
   }
 }
 
